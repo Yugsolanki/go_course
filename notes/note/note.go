@@ -29,7 +29,7 @@ func New(title, content string) (Note, error) {
 }
 
 func (note Note) Display() {
-	fmt.Printf("\nTitle: %v\nContent: %v", note.Title, note.Content)
+	fmt.Printf("\nTitle: %v\nContent: %v\n", note.Title, note.Content)
 }
 
 func (note Note) Save() error {
