@@ -10,6 +10,17 @@ import (
 	"example.com/notes/todo"
 )
 
+// If you have interface that requires only one method then interface name will be method name + 'er' at the end
+// e.g. :- If Method = Jump, then Interface = Jumper
+type saver interface {
+	Save() error
+}
+
+type outputtable interface {
+	saver
+	Display()
+}
+
 func main() {
 	title, content := getNoteData()
 	userNote, err := note.New(title, content)
@@ -18,10 +29,8 @@ func main() {
 		return
 	}
 
-	userNote.Display()
-	err = userNote.Save()
+	err = outputData(userNote)
 	if err != nil {
-		fmt.Println("Saving the note failed")
 		return
 	}
 	fmt.Println("Saving the note succeded")
@@ -34,13 +43,26 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	userTodo.Display()
-	err = userTodo.Save()
+
+	err = outputData(userTodo)
 	if err != nil {
-		fmt.Println("Saving the todo failed")
 		return
 	}
 	fmt.Println("Saving the todo succeded")
+}
+
+func saveData(data saver) error {
+	err := data.Save()
+	if err != nil {
+		fmt.Println("Saving the todo failed")
+		return err
+	}
+	return nil
+}
+
+func outputData(data outputtable) error {
+	data.Display()
+	return saveData(data)
 }
 
 func getNoteData() (string, string) {
