@@ -51,6 +51,40 @@ func main() {
 	fmt.Println("Saving the todo succeded")
 }
 
+// Any type: basically accepts any type of value
+func printSomething(value interface{}) {
+
+	// `value.(type)` only works inside `switch`
+	// the other way is below, it give back two things, `ok` is a boolean which is important
+	intVal, ok := value.(int)
+	if ok {
+		fmt.Println("Integer: ", intVal)
+		return
+	}
+
+	stringVal, ok := value.(string)
+	if ok {
+		fmt.Println("Integer: ", stringVal)
+		return
+	}
+
+	// if you don't wanna use `if` also can go for `switch`
+	switch value.(type) {
+	case int:
+		fmt.Println("Integer: ", value)
+	case float64:
+		fmt.Println("Float64: ", value)
+	case todo.Todo:
+		fmt.Println("Todo: ", value)
+	case string:
+		fmt.Println(value)
+	default:
+		return
+	}
+
+	fmt.Println(value)
+}
+
 func saveData(data saver) error {
 	err := data.Save()
 	if err != nil {
