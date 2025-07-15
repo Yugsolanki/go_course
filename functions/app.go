@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type transformFn func(int) int
 
@@ -26,6 +28,18 @@ func main() {
 
 	eight := transformNumbers(&arr, createTransformer(8))
 	fmt.Println(eight)
+
+	// Recursion
+	fac := factorial(5)
+	fmt.Println(fac)
+
+	// Variadic Function
+	sum := sumUp(0, 1, 2, 3, 4, 5)
+	fmt.Println(sum)
+	// when we have a defined variable like `arr` and want to pass to a variadic function,
+	// you can do this `arr...` to open it up
+	sum = sumUp(1, arr...)
+	fmt.Println(sum)
 }
 
 func transformNumbers(arr *[]int, transform transformFn) []int {
@@ -46,6 +60,7 @@ func triple(number int) int {
 	return number * 3
 }
 
+// function as return type
 func getTransformerFunction(str string) transformFn {
 	if str == "double" {
 		return double
@@ -63,4 +78,23 @@ func createTransformer(factor int) func(int) int {
 	return func(number int) int {
 		return number * factor
 	}
+}
+
+// Recursion
+func factorial(num int) int {
+	if num == 0 {
+		return 1
+	}
+	return num * factorial(num-1)
+}
+
+// Variadic Function
+func sumUp(startingValue int, numbers ...int) int {
+	sum := startingValue
+
+	for _, val := range numbers {
+		sum += val
+	}
+
+	return sum
 }
